@@ -18,7 +18,7 @@ class AuthController < ApplicationController
         end
 
         # exchange code for token
-        uri = URI.parse('https://hackatime.hackclub.com/oauth/token')
+        uri = URI.parse("https://hackatime.hackclub.com/oauth/token")
         data = '{
             "client_id": "'+ ENV["HACKATIME_UID"]+ '",
             "client_secret": "'+ ENV["HACKATIME_SECRET"]+ '",
@@ -26,9 +26,9 @@ class AuthController < ApplicationController
             "code": "' + params["code"] + '",
             "grant_type": "authorization_code"
         }'
-        headers = {'content-type': 'application/json'}
+        headers = { 'content-type': "application/json" }
         res = Net::HTTP.post(uri, data, headers)
-        
+
         puts res.body
 
         token = ""
@@ -51,7 +51,7 @@ class AuthController < ApplicationController
             redirect_to root_path, notice: "Invalid authentication code or authentication server was unreachable"
             return
         end
-        
+
         redirect_to root_path, notice: "token:"+token
     end
 end
