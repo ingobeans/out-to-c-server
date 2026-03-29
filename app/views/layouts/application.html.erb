@@ -19,6 +19,9 @@
   </head>
 
   <body>
+    <% if notice != nil %>
+      <div id="notice"><span><%= notice %></span><button onclick="this.parentElement.remove();">X</button></div>
+    <% end %>
     <%= yield %>
   </body>
 </html>
