@@ -37,14 +37,14 @@ class AuthController < ApplicationController
         error = (not (res.kind_of? Net::HTTPSuccess)) or res.body.include? "error"
 
         if not error
-        data = JSON.parse(res.body)
+            data = JSON.parse(res.body)
 
-        if data == nil or data["access_token"] == nil
-            # mark authentication as unsuccesful
-            error = true
-        else
-            token = data["access_token"]
-        end
+            if data == nil or data["access_token"] == nil
+                # mark authentication as unsuccesful
+                error = true
+            else
+                token = data["access_token"]
+            end
         end
 
         if error
