@@ -1,24 +1,11 @@
-# README
+# Out to C (backend server)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is the Ruby on Rails backend for the Hack Club YSWS [Out to C](https://out-to-c.dino.icu/)!
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Running locally
+* Install Ruby on Rails (good luck).
+* Clone this repo and CD there
+* Use `bundle install`
+* Do `rails db:create db:migrate` to set up the database.
+* Set up the .env file! Copy the example file with `cp .env.example .env`, then open .env and follow the instructions there.
+* And then you can run the server with `rails s` and hope it works!!
