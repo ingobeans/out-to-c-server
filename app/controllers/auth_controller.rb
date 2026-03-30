@@ -37,9 +37,11 @@ class AuthController < ApplicationController
             user_object = { "name": slack_data["displayName"], "pfp": slack_data["imageUrl"], "uid": slack_id, "token": token }
             user = User.create(user_object)
             user.save!
+            session[:user_id] = user
             redirect_to root_path, notice: "welcome, new user named: "+user.name
         else
             # existing user
+            session[:user_id] = existing_user
             redirect_to root_path, notice: "welcome back, user named:"+existing_user.name
         end
     end

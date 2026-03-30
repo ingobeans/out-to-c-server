@@ -2,4 +2,8 @@ hiya :3
 <br>
 welcome to the out to c backend server :O
 <br>
+<% if not @loggedin %>
 login here: <a href="https://hackatime.hackclub.com/oauth/authorize?client_id=<%= ENV["HACKATIME_UID"] %>&redirect_uri=<%= CGI.escape(auth_callback_url) %>&response_type=code&scope=profile+read">click</a>
+<% else %>
+you are logged in! welcome user <%= session[:user_id].name %>
+<% end %>
