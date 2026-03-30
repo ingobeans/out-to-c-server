@@ -14,7 +14,7 @@ you are logged in! welcome user <%= session[:user_id]["name"] %>
     <br>
     <span>dev login:</span>
     <form action="/auth/dev">
-        <input name="uid" type="text">
+        <input name="uid" type="text" placeholder="Enter UID for user">
         <input type="submit">
     </form>
 <% end %>
