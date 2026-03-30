@@ -18,7 +18,7 @@ class AuthController < ApplicationController
         end
 
         # exchange code for token
-        response = getToken(code)
+        response = get_token(code)
 
         if response[:token] == nil
             redirect_to root_path, notice: "error: Couldn't get token: " + response[:error].to_s
@@ -26,12 +26,48 @@ class AuthController < ApplicationController
         end
         token = response[:token]
 
-        redirect_to root_path, notice: "token:"+token
+        user_data = get_user_data(token)
+        slack_id = user_data["slack_id"]
+
+        # check for existing user
+        existing_user = User.where(uid: slack_id).first()
+        if existing_user == nil
+            # new user, fetch user data from slack
+            slack_data = get_slack_data(slack_id)
+            user_object = { "name": slack_data["displayName"], "pfp": slack_data["imageUrl"], "uid": slack_id, "token": token }
+            user = User.create(user_object)
+            user.save!
+            redirect_to root_path, notice: "welcome, new user named: "+user.name
+        else
+            # existing user
+            redirect_to root_path, notice: "welcome back, user named:"+existing_user.name
+        end
     end
 
     private
+        def get_user_data(token)
+            uri = URI.parse("https://hackatime.hackclub.com/api/v1/authenticated/me")
+            req = Net::HTTP::Get.new(uri)
+            req["Authorization"] = "Bearer " + token
+            res = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == "https") do |http|
+                http.request(req)
+            end
+
+            JSON.parse(res.body)
+        end
+
+        def get_slack_data(slack_id)
+            uri = URI.parse("https://cachet.dunkirk.sh/users/"+slack_id)
+            req = Net::HTTP::Get.new(uri)
+            res = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == "https") do |http|
+                http.request(req)
+            end
+
+            JSON.parse(res.body)
+        end
+
         # exchange a authentication code for a hackatime user token
-        def getToken(code)
+        def get_token(code)
             uri = URI.parse("https://hackatime.hackclub.com/oauth/token")
             data = '{
                 "client_id": "'+ ENV["HACKATIME_UID"]+ '",
