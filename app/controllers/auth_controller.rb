@@ -1,6 +1,25 @@
 require "net/http"
 
 class AuthController < ApplicationController
+    # used for dev login
+    def dev
+        if !Rails.env.development?
+            redirect_to root_path
+            return
+        end
+
+        target_uid = params["uid"]
+
+        # find user with that id
+        existing_user = User.where(uid: target_uid).first()
+        if existing_user == nil
+            redirect_to root_path, notice: "error: Dev login failed because user doesn't exist"
+        return
+        end
+
+        session[:user_id] = existing_user
+        redirect_to root_path, notice: "Dev login successful!"
+    end
     def callback
         error = params["error"]
         if error != nil
