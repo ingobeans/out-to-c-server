@@ -34,7 +34,7 @@ class AuthController < ApplicationController
         if existing_user == nil
             # new user, fetch user data from slack
             slack_data = get_slack_data(slack_id)
-            user_object = { "name": slack_data["displayName"], "pfp": slack_data["imageUrl"], "uid": slack_id, "token": token }
+            user_object = { "name": slack_data[:name], "pfp": slack_data[:pfp], "uid": slack_id, "token": token }
             user = User.create(user_object)
             user.save!
             session[:user_id] = user
@@ -44,6 +44,15 @@ class AuthController < ApplicationController
             session[:user_id] = existing_user
             redirect_to root_path, notice: "welcome back, user named:"+existing_user.name
         end
+    end
+
+    def test
+        if not Rails.env.development?
+            render plain: "sorry! this endpoint isnt allowed in production!!"
+            return
+        end
+        slack_id = params["id"]
+        render plain: get_slack_data(slack_id)
     end
 
     private
@@ -58,14 +67,47 @@ class AuthController < ApplicationController
             JSON.parse(res.body)
         end
 
+        # gets user data from slack.
+        # if a slack bot has been set in .env, will use that to get user data,
+        # else will query cachet api (https://cachet.dunkirk.sh/)
         def get_slack_data(slack_id)
+            if ENV["SLACK_BOT_TOKEN"] == nil
+                return get_slack_data_cachet(slack_id)
+            end
+
+            uri = URI.parse("https://slack.com/api/users.info?user="+slack_id)
+            data = '{
+                "user": "'+ slack_id + '",
+            }'
+            headers = {
+                'content-type': "application/json",
+                'Authorization': "Bearer " + ENV["SLACK_BOT_TOKEN"]
+            }
+            res = Net::HTTP.post(uri, data, headers)
+
+            # fallback on cachet api
+            if not (res.kind_of? Net::HTTPSuccess)
+                return get_slack_data_cachet(slack_id)
+            end
+
+            data = JSON.parse(res.body)
+
+            if data == nil or data["user"] == nil
+                return get_slack_data_cachet(slack_id)
+            end
+
+            { "pfp": data["user"]["profile"]["image_512"], "name": data["user"]["profile"]["display_name"] }
+        end
+
+        # get slack data through cachet api
+        def get_slack_data_cachet(slack_id)
             uri = URI.parse("https://cachet.dunkirk.sh/users/"+slack_id)
             req = Net::HTTP::Get.new(uri)
             res = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == "https") do |http|
                 http.request(req)
             end
-
-            JSON.parse(res.body)
+            data = JSON.parse(res.body)
+            { "pfp": data["imageUrl"], "name": data["displayName"] }
         end
 
         # exchange a authentication code for a hackatime user token
