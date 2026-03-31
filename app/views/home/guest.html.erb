@@ -1,0 +1,91 @@
+<div id="background"></div>
+<div id="varyingContents">
+    <a href="https://hackclub.com" id="hackclub-flag"><img src="https://assets.hackclub.com/flag-orpheus-top.svg"></a>
+    <div style="position: absolute;width:100%"><img id="logo" src="logo.svg" alt="Out To C"></div>
+    <img id="scroll-indicator" src="scroll.svg">
+    <a class="linkbutton sign-in" href="https://hackatime.hackclub.com/oauth/authorize?client_id=<%= ENV["HACKATIME_UID"] %>&redirect_uri=<%= CGI.escape(auth_callback_url) %>&response_type=code&scope=profile+read"
+        title="RSVP form :O">Sign in with Hack Club</a>
+
+    <% if Rails.env.development? %>
+    <div class="devlogin">
+        <span>Dev login:</span>
+        <form action="/auth/dev">
+            <input name="uid" type="text" placeholder="Enter UID for user">
+        </form>
+    </div>
+    <% end %>
+
+    <div class="ocean-gradient"></div>
+    <div class="spacer"></div>
+    <!-- text contents! -->
+    <div class="container">
+        <div class="centered">
+        <main>
+            <h1>Out To C</h1>
+            <p>Voyage out to sea on the hunt for treasure! You write projects in C or C++, and while you work,
+            your ship travels further and further. On the way, there's islands with treasure chests!</p>
+        </main>
+        <div class="card-holder">
+            <img src="card1.svg">
+            <img src="card2.svg">
+            <img src="card3.svg">
+        </div>
+        <div class="map-holder">
+            <div style="background-color: red;width: var(--w_factor);height: var(--w_factor);"></div>
+            <div class="map-marker" id="map-marker-1">
+            <div>
+                <div>
+                (Choose 1)
+                <div class="spread">
+                    <img src="prices/blahaj.png">
+                    <img src="prices/pinecil.png">
+                    <img src="prices/pizero2w.png">
+                </div>
+                </div>
+            </div>
+            </div>
+            <div class="map-marker" id="map-marker-2">
+            <div>
+                <div>(Choose 1)
+                <div class="spread">
+                    <img src="prices/pipico.png">
+                    <img src="prices/pico8.png">
+                    <img src="prices/cloudflare.png">
+                </div>
+                </div>
+            </div>
+            </div>
+            <div class="map-marker" id="map-marker-3">
+            <div>
+                <div>(Choose 1)
+                <div class="spread">
+                    <img src="prices/hm1.png">
+                    <img src="prices/hm2.png">
+                    <img src="prices/hm3.png">
+                </div>
+                </div>
+            </div>
+            </div>
+            <img src="map.svg" id="map">
+        </div>
+        <h1>More information</h1>
+        <p>There's several smaller islands with treasure along the way, and one extra big treasure island at the end!
+            However, you can "ship" your project at any time, meaning to publish/release it, at which point you receive
+            all
+            the treasure you've gotten so far. You can also continue working more hours after the big treasure island,
+            with
+            more prizes to be defined.</p>
+        <p>This YSWS has been accepted and will run sometime through June and July. The end prizes are also
+            not final and will depend heavily on how much budget we are allocated.</p>
+        <span>Interested? Join the channel <a class="channel-link"
+            href="https://hackclub.enterprise.slack.com/archives/C0ANHQPT1S4">#out-to-c</a></span>
+
+        <div class="bottom">
+            <p>Made by <a class="channel-link" target="_blank"
+                href="https://hackclub.enterprise.slack.com/team/U098P9DLUGJ">@iris</a> • <a class="channel-link"
+                target="_blank" href="https://github.com/ingobeans/out-to-c">Github Repo</a></p>
+        </div>
+        </div>
+    </div>
+</div>
+<script type="module" src="min.js"></script>

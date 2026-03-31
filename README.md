@@ -8,4 +8,6 @@ This is the Ruby on Rails backend for the Hack Club YSWS [Out to C](https://out-
 * Use `bundle install`
 * Do `rails db:create db:migrate` to set up the database.
 * Set up the .env file! Copy the example file with `cp .env.example .env`, then open .env and follow the instructions there.
+* Make sure Node.js and npm are installed, then run `npm install three esbuild`
+* Then, to build the minified js code, run `npx esbuild --bundle public/main.js --format=esm --minify > public/min.js`
 * And then you can run the server with `rails s` and hope it works!!

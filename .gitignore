@@ -18,3 +18,9 @@
 
 # include example .env file
 !.env.example
+
+# ignore min.js
+public/min.js
+
+# ignore node_modules
+node_modules

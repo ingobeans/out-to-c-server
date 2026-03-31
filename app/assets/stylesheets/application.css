@@ -6,8 +6,314 @@
     transform: translateX(-50%);
     background-color: green;
     padding: 10px;
+    z-index: 9990;
 }
 
 #notice>button {
     margin-left: 10px;
+}
+
+body {
+    margin: 0;
+    background-color: #0091F8;
+    min-height: 100vh;
+}
+
+#background {
+    z-index: -2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50vh;
+    background-image: url("3d/sky-top.png"), linear-gradient(180deg, rgba(0, 145, 248, 1) 1%, rgba(138, 218, 255, 1) 76%, rgba(255, 255, 255, 1) 100%);
+    background-repeat: repeat-x;
+    background-position: top, bottom;
+    background-size: 67vh, 100vh;
+}
+
+@font-face {
+    font-family: inknut-antiqua;
+    src: url(/InknutAntiqua/InknutAntiqua-Regular.ttf);
+
+    /* from: https://gomakethings.com/better-font-loading-with-the-font-displayswap-property/
+    basically, without this, firefox (not chrome i think), will wait for the font to load before rendering the text,
+    rather than using the fallback font, which leaves big empty blocks for a second or so on first load.
+    */
+    font-display: swap;
+}
+
+@font-face {
+    font-family: inknut-antiqua;
+    src: url(/InknutAntiqua/InknutAntiqua-Bold.ttf);
+    font-weight: bold;
+    font-display: swap;
+}
+
+* {
+    font-family: inknut-antiqua;
+    line-height: 36px;
+    /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
+}
+
+.devlogin {
+    position: absolute;
+    background-color: #6e4c30;
+    border: 5px solid #9c6a3d;
+    color: white;
+    float: right;
+    padding: 10px;
+    top: 70px;
+    right: 10px;
+    z-index: 990;
+}
+
+.bottom {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 200px;
+    width: fit-content;
+}
+
+.channel-link {
+    font-weight: bold;
+    color: white;
+}
+
+.sign-in {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.linkbutton {
+    background-color: #6e4c30;
+    padding: 5px 15px;
+    border-radius: 10px;
+    color: white;
+    border: 5px solid #9c6a3d;
+    text-decoration: none;
+}
+
+.linkbutton:hover {
+    background-color: #583d26;
+    border: 5px solid #8f6037;
+}
+
+
+.card-holder {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.card-holder>img {
+    width: 325px;
+}
+
+.card-holder>img:hover {
+    scale: 1.2;
+}
+
+pre {
+    font-family: Courier New;
+}
+
+h1 {
+    text-align: center;
+    margin: 0;
+}
+
+#hackclub-flag {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    z-index: 10;
+    filter: hue-rotate(255deg) saturate(1.5);
+}
+
+#hackclub-flag:hover {
+    filter: hue-rotate(215deg) saturate(1.5);
+    scale: 1.2;
+    left: 20px;
+}
+
+#hackclub-flag>img {
+    width: 175px;
+}
+
+#scroll-indicator {
+    position: absolute;
+    top: calc(100vh - 35px);
+    width: 95px;
+    left: calc(50% - 95px / 2.0)
+}
+
+#logo {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 705px;
+    max-width: 100%;
+    padding-top: 20px;
+}
+
+@media (max-width: 1205px) {
+    #logo {
+        padding-top: 105px;
+    }
+}
+
+.map-holder {
+    margin-left: auto;
+    margin-right: auto;
+    width: 800px;
+    max-width: 100%;
+
+    /* calc the factor the image will be scaled at. used to calc the positions of points of interest.
+    the margin is 38, and not 20, since on chrome, 100vw doesnt include the scrollbars. this is to compensate for that. */
+    --w_factor: calc(min(100vw - 38px, 800px) / 800);
+}
+
+.map-marker {
+    position: relative;
+    width: 0;
+    height: 0;
+}
+
+.map-marker>div>div {
+    display: none;
+    width: 300px;
+    height: 200px;
+    margin-left: -112px;
+    transform: translateY(-140px);
+    background-color: #6e4c30;
+    border-radius: 10px;
+    border: 5px solid #9c6a3d;
+    padding: 5px;
+}
+
+.spread {
+    max-width: 100%;
+    height: 120px;
+    position: relative;
+}
+
+.spread>img {
+    width: 110px;
+    background-color: #4d3533;
+    border: 5px solid #10121C;
+    position: absolute;
+    top: 0;
+    transform: translateY(5px);
+}
+
+.spread>img:hover {
+    scale: 1.2;
+    z-index: 3;
+}
+
+.spread>img:nth-child(1) {
+    left: calc(50% - 110px / 2);
+    z-index: 1;
+    transform: translateY(0);
+}
+
+.spread>img:nth-child(2) {
+    left: 0;
+    rotate: -5deg;
+}
+
+.spread>img:nth-child(3) {
+    right: 0;
+    rotate: 5deg;
+}
+
+
+.map-marker>div:hover>div {
+    display: block;
+}
+
+#map-marker-3>div>div {
+    margin-left: -75px;
+    transform: translateY(-100px);
+}
+
+@media (max-width: 935px) {
+    .map-marker>div>div {
+        margin-left: -135px;
+    }
+
+    #map-marker-3>div>div {
+        margin-left: -195px;
+    }
+}
+
+#map-marker-1 {
+    left: calc(var(--w_factor) * 280);
+    top: calc(var(--w_factor) * 76);
+}
+
+#map-marker-2 {
+    left: calc(var(--w_factor) * 503);
+    top: calc(var(--w_factor) * 346);
+}
+
+#map-marker-3 {
+    left: calc(var(--w_factor) * 618);
+    top: calc(var(--w_factor) * 131);
+}
+
+#map-marker-3>div {
+    width: calc(var(--w_factor) * 167);
+    height: calc(var(--w_factor) * 115);
+}
+
+.map-marker>div {
+    width: calc(var(--w_factor) * 85);
+    height: calc(var(--w_factor) * 73);
+    /* background-color: rgba(255, 255, 255, 0.178); */
+}
+
+#map {
+    width: 100%;
+    display: block;
+}
+
+
+.centered {
+    max-width: 995px;
+    width: calc(100% - 10px);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.container {
+    padding: 5px;
+    color: white;
+    background-color: #0b0059;
+}
+
+canvas {
+    z-index: -1;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100vh !important;
+    filter: drop-shadow(0px 10px white);
+}
+
+.spacer {
+    height: calc(100vh + 160px);
+}
+
+.ocean-gradient {
+    position: absolute;
+    /* let height be a bit higher than the spacer, to ensure no gap */
+    height: calc(100vh + 190px);
+    width: 100%;
+    z-index: -3;
+    background: linear-gradient(180deg, rgb(5, 130, 233) 00%, rgb(0, 114, 208) 80%, rgb(11, 0, 89) 96%);
 }
