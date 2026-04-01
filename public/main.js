@@ -16,7 +16,11 @@ let height = document.documentElement.clientHeight * window.devicePixelRatio;
 
 // init
 
-const camera = new THREE.PerspectiveCamera(70, width / height, 1.3, 100);
+// use higher clipping plane if showOceanSlice is defined and set to true
+let shouldShowOceanSlice = typeof (showOceanSlice) != "undefined" && showOceanSlice == true;
+let nearClipping = shouldShowOceanSlice ? 1.3 : 0.1;
+
+const camera = new THREE.PerspectiveCamera(70, width / height, nearClipping, 100);
 const scene = new THREE.Scene();
 
 // add fog to show perspective
