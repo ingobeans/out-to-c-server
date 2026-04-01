@@ -2,8 +2,8 @@
 <div id="background"></div>
 <div id="varyingContents">
     <a href="https://hackclub.com" id="hackclub-flag"><img src="https://assets.hackclub.com/flag-orpheus-top.svg"></a>
-    <div style="position: absolute;width:100%"><img id="logo" src="logo.svg" alt="Out To C"></div>
-    <img id="scroll-indicator" src="scroll.svg">
+    <div style="position: absolute;width:100%"><img id="logo" src="<%= asset_path("graphics/logo.svg") %>" alt="Out To C"></div>
+    <%= image_tag "graphics/scroll.svg", id:"scroll-indicator" %>
     <a class="linkbutton sign-in" href="https://hackatime.hackclub.com/oauth/authorize?client_id=<%= ENV["HACKATIME_UID"] %>&redirect_uri=<%= CGI.escape(auth_callback_url) %>&response_type=code&scope=profile+read"
         title="RSVP form :O">Sign in with Hack Club</a>
 
@@ -27,9 +27,9 @@
             your ship travels further and further. On the way, there's islands with treasure chests!</p>
         </main>
         <div class="card-holder">
-            <img src="card1.svg">
-            <img src="card2.svg">
-            <img src="card3.svg">
+            <%= image_tag("graphics/card1.svg") %>
+            <%= image_tag("graphics/card2.svg") %>
+            <%= image_tag("graphics/card3.svg") %>
         </div>
         <div class="map-holder">
             <div style="background-color: red;width: var(--w_factor);height: var(--w_factor);"></div>
@@ -38,9 +38,9 @@
                 <div>
                 (Choose 1)
                 <div class="spread">
-                    <img src="prices/blahaj.png">
-                    <img src="prices/pinecil.png">
-                    <img src="prices/pizero2w.png">
+                    <%= image_tag("prices/blahaj.png") %>
+                    <%= image_tag("prices/pinecil.png") %>
+                    <%= image_tag("prices/pizero2w.png") %>
                 </div>
                 </div>
             </div>
@@ -49,9 +49,9 @@
             <div>
                 <div>(Choose 1)
                 <div class="spread">
-                    <img src="prices/pipico.png">
-                    <img src="prices/pico8.png">
-                    <img src="prices/cloudflare.png">
+                    <%= image_tag("prices/pipico.png") %>
+                    <%= image_tag("prices/pico8.png") %>
+                    <%= image_tag("prices/cloudflare.png") %>
                 </div>
                 </div>
             </div>
@@ -60,14 +60,14 @@
             <div>
                 <div>(Choose 1)
                 <div class="spread">
-                    <img src="prices/hm1.png">
-                    <img src="prices/hm2.png">
-                    <img src="prices/hm3.png">
+                    <%= image_tag("prices/hm1.png") %>
+                    <%= image_tag("prices/hm2.png") %>
+                    <%= image_tag("prices/hm3.png") %>
                 </div>
                 </div>
             </div>
             </div>
-            <img src="map.svg" id="map">
+            <%= image_tag "graphics/map.svg", id:"map" %>
         </div>
         <h1>More information</h1>
         <p>There's several smaller islands with treasure along the way, and one extra big treasure island at the end!
