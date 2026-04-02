@@ -6,11 +6,37 @@ import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
 let newVoyageBtn = document.getElementById("new-voyage");
 let newVoyageDiv = document.getElementById("new-voyage-div");
 
+let notice = document.getElementById("notice");
+
+function showNotice(text) {
+    notice.children[0].innerText = text;
+    notice.style.display = "unset";
+}
+
 globalThis.newVoyage = function () {
     setCameraState(1);
     newVoyageBtn.classList.add("fade-out");
     newVoyageDiv.classList.add("fade-in");
 }
+
+document.forms['new-voyage-form'].addEventListener('submit', (event) => {
+    event.preventDefault();
+    // TODO do something here to show user that form is being submitted
+    fetch(event.target.action, {
+        method: 'POST',
+        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+    }).then((response) => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+    }).then((body) => {
+        showNotice("Success!");
+    }).catch((error) => {
+        showNotice("Error: Not success :(");
+    });
+});
+
 
 let cameraStates = [
     [[3.890794575489123, 0.9752466284680337, 3.406702477655009], [-0.06501676300811605, 0.014735025041483576, 0.0009593408193955247], 1.0],

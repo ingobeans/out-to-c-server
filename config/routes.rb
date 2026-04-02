@@ -3,5 +3,6 @@ Rails.application.routes.draw do
   get "auth/callback" => "auth#callback"
   get "auth/test" => "auth#test"
   get "auth/dev" => "auth#dev"
+  post "voyage/new" => "voyage#new"
   root "home#index"
 end

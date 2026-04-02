@@ -10,13 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_30_150855) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_02_140828) do
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name"
     t.string "pfp"
     t.string "token"
     t.string "uid"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "voyages", force: :cascade do |t|
+    t.string "cargo"
+    t.datetime "created_at", null: false
+    t.string "desc"
+    t.string "hackatime"
+    t.float "hours"
+    t.string "name"
+    t.string "repo"
     t.datetime "updated_at", null: false
   end
 end
