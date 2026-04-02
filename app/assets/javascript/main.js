@@ -212,7 +212,7 @@ function animate(time) {
     let relPosition = water.position;
     // PI / 16 is subtracted to make it a bit delayed compared to the water
     // to give an effect of having mass
-    ship.position.y = Math.sin(time / 1200.0 + relPosition.z + relPosition.x - Math.PI / 16) * 0.04;
+    ship.position.y = Math.sin(time / 1200.0 + relPosition.z + relPosition.x - Math.PI / 16 + travelDistance) * 0.04;
 
     ship.position.x = lerp(ship.position.x, travelDistance, Math.min(deltaTime / 1000.0, 1.0 / 60.0) * 2.0);
 
