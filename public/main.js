@@ -177,7 +177,12 @@ function lerpCameraState(a, b, t) {
     }
     a[2] = lerp(a[2], b[2], t);
 }
-globalThis.setCameraState = (a) => { activeCameraStateIndex = a };
+
+function setCameraState(index) {
+    activeCameraStateIndex = index;
+    localStorage.setItem("lastCameraState", index);
+}
+globalThis.setCameraState = setCameraState;
 
 let previousTime = 0.0;
 function animate(time) {
