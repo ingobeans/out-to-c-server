@@ -65,6 +65,49 @@ body {
     /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
 }
 
+.fade-out {
+    opacity: 0.0 !important;
+}
+
+.fade-in {
+    opacity: 1.0 !important;
+}
+
+#new-voyage-div {
+    transition: 0.1s;
+    opacity: 0.0;
+    background-color: #6e4c30;
+    border: 5px solid #9c6a3d;
+    width: 100%;
+    max-width: 800px;
+    position: absolute;
+    left: 50%;
+    top: 20px;
+    padding: 10px;
+    color: white;
+    transform: translateX(-50%);
+}
+
+#new-voyage {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: fit-content;
+    text-wrap: nowrap;
+    transition: 0.1s;
+    top: 120px;
+    font-size: 72px;
+    padding: 20px;
+    border: none;
+    background: none;
+    color: #0082E0;
+    text-shadow: 0px 1px 0px black;
+}
+
+#new-voyage:hover {
+    filter: brightness(0.8);
+}
+
 .devlogin {
     position: absolute;
     background-color: #6e4c30;
@@ -289,6 +332,11 @@ h1 {
     display: block;
 }
 
+.center {
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 .centered {
     max-width: 995px;

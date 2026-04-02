@@ -1,5 +1,11 @@
 <div id="background"></div>
 <div id="varyingContents">
     <img id="pfp" src="<%= session[:user_id]["pfp"] %>">
-    you are logged in! welcome user <%= session[:user_id]["name"] %>
+    <button onclick="newVoyage();" id="new-voyage">New Voyage</button>
+    <div id="new-voyage-div">
+        <h1>New Voyage</h1>
+        <form>
+            
+        </form>
+    </div>
 </div>
