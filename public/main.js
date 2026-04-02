@@ -13,7 +13,7 @@ let disableStartLerp = typeof (_disableStartLerp) == "boolean" && _disableStartL
 
 let storedCameraStateIndex = parseInt(localStorage.getItem("lastCameraState")) || 0;
 
-let activeCameraStateIndex = typeof (startingCameraStateIndex) == "number" && parseInt(startingCameraStateIndex) || 0;
+let activeCameraStateIndex = typeof (_activeCameraStateIndex) == "number" && parseInt(_activeCameraStateIndex) || 0;
 
 if (disableStartLerp) {
     localStorage.setItem("lastCameraState", activeCameraStateIndex);
