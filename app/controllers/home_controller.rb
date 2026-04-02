@@ -7,7 +7,7 @@ class HomeController < ApplicationController
     end
 
     private
-        def set_logged_in
-          @loggedin = session[:user_id] != nil and session[:user_id]["uid"] != nil
-        end
+      def set_logged_in
+        @loggedin = session[:user_id] != nil and session[:user_id]["uid"] != nil
+      end
 end

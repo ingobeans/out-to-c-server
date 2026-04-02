@@ -30,7 +30,11 @@ document.forms['new-voyage-form'].addEventListener('submit', (event) => {
         }
         return response.json();
     }).then((body) => {
-        showNotice("Success!");
+        if (body["error"]) {
+            showNotice("Error: " + body["error"]);
+            return;
+        }
+        showNotice("Success!" + JSON.stringify(body));
     }).catch((error) => {
         showNotice("Error: Not success :(");
     });

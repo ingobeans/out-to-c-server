@@ -1,5 +1,6 @@
 <div id="background"></div>
 <div id="varyingContents">
+    <p><%= session[:user_id]["voyage"] %></p>
     <img id="pfp" src="<%= session[:user_id]["pfp"] %>">
     <button onclick="newVoyage();" id="new-voyage">New Voyage</button>
     <div id="new-voyage-div">
