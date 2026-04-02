@@ -46,9 +46,9 @@
     <% end %>
     <%= yield %>
     <% if Rails.env.development? %>
-      <script type="module" src="main.js"></script>
+      <script type="module" src="<%= asset_path "main.js" %>"></script>
     <% else %>
-      <script type="module" src="min.js"></script>
+      <script type="module" src="<%= asset_path "min.js" %>"></script>
     <% end %>
   </body>
 </html>
