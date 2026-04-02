@@ -1,6 +1,17 @@
 class VoyageController < ApplicationController
   # require all routes of the voyage controller to be logged in to an account
   before_action :check_logged_in
+  def delete
+    if !Rails.env.development?
+      redirect_to root_path
+      return
+    end
+    @voyage.delete()
+    @user.voyage = nil
+    @user.save!
+    session[:user_id] = @user
+    redirect_to root_path
+  end
   def new
     if @voyage != nil
       render json: { "error": "This user already has an active voyage!" }
@@ -9,15 +20,15 @@ class VoyageController < ApplicationController
     data = {
       "name": params["name"]
     }
-    voyage = Voyage.new(data)
-    voyage.save!
+    @voyage = Voyage.new(data)
+    @voyage.save!
 
     # set user's voyage to this voyage!
-    @user.voyage = voyage.id
+    @user.voyage = @voyage.id
     @user.save!
     session[:user_id] = @user
 
-    render json: { "hi": "there" }
+    render json: { "id": @voyage.id }
   end
 
   private

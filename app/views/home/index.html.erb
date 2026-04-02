@@ -1,16 +1,17 @@
 <script>
     // load user data for the JS side
     voyage = parseInt('<%= @voyage && @voyage.id %>') || null;
+
+    _activeCameraStateIndex = voyage == null ? 0 : 1;
 </script>
 
 <div id="background"></div>
 <div id="varyingContents">
-    <p><%= @voyage && @voyage.id %></p>
     <img id="pfp" src="<%= session[:user_id]["pfp"] %>">
 
     <div id="no-existing-voyage" <% if @voyage != nil %> style="visibility: hidden;"<% end %>>
         <button onclick="newVoyage();" id="new-voyage">New Voyage</button>
-        <div id="new-voyage-div">
+        <div id="new-voyage-div" class="page">
             <h1>New Voyage</h1>
             <%= form_with(url: voyage_new_path, id: "new-voyage-form") do |form| %>
                 <label for=name>Name: </label><br>
@@ -32,6 +33,12 @@
                 <br>
                 <button>CREATE VOYAGE</button>
             <% end %>
+        </div>
+    </div>
+    <div id="active-voyage" <% if @voyage == nil %> style="visibility: hidden;"<% end %>>
+        <div class="page">
+            <p>blorg</p>
+            <a href="/voyage/delete">remove voyage (dev)</a>
         </div>
     </div>
 </div>

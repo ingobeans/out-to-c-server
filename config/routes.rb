@@ -4,5 +4,6 @@ Rails.application.routes.draw do
   get "auth/test" => "auth#test"
   get "auth/dev" => "auth#dev"
   post "voyage/new" => "voyage#new"
+  get "voyage/delete" => "voyage#delete"
   root "home#index"
 end

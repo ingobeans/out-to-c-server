@@ -1,3 +1,4 @@
+let activeVoyageScreen = document.getElementById("active-voyage");
 let noExistingVoyageScreen = document.getElementById("no-existing-voyage");
 let newVoyageBtn = document.getElementById("new-voyage");
 let newVoyageDiv = document.getElementById("new-voyage-div");
@@ -54,8 +55,11 @@ document.forms['new-voyage-form'].addEventListener('submit', (event) => {
             showNotice("Error: " + body["error"]);
             return;
         }
-        showNotice("Success!" + JSON.stringify(body));
+        voyage = parseInt(body["id"]);
+        fadeOut(noExistingVoyageScreen);
+        fadeIn(activeVoyageScreen);
     }).catch((error) => {
         showNotice("Error: Not success :(");
+        console.error(error);
     });
 });
