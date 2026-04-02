@@ -137,7 +137,7 @@ async function loadModel(name, material) {
         materials.materials.Ship.transparent = true;
     }
     for (let m of Object.keys(materials.materials)) {
-        if (materials.materials[m].map == undefined || m == "Ship") { continue }
+        if (materials.materials[m].map == undefined) { continue }
         materials.materials[m].map.magFilter = THREE.NearestFilter;
         materials.materials[m].map.minFilter = THREE.NearestFilter;
     }
