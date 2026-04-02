@@ -6,7 +6,24 @@
     <div id="new-voyage-div">
         <h1>New Voyage</h1>
         <%= form_with(url: voyage_new_path, id: "new-voyage-form") do |form| %>
-            <input name="name" type="text">
+            <label for=name>Name: </label><br>
+            <input autocomplete="off" name="name" type="text">
+            <br>
+            <label for=name>Description (optional): </label><br>
+            <input autocomplete="off" name="name" type="text">
+
+            <br>
+            <label for=hackatime>Select Hackatime project: </label><br>
+
+            <select  autocomplete="off" name="hackatime" id="hackatime">
+                <option value="" disabled selected>Select a Hackatime project</option>
+                <option value="blurb">blurb</option>
+                <option value="cool project">cool project</option>
+                <option value="test">test</option>
+                <option value="lorem ipsum">lorem ipsum</option>
+            </select>
+            <br>
+            <button>CREATE VOYAGE</button>
         <% end %>
     </div>
 </div>
