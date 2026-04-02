@@ -3,43 +3,46 @@ import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
 //import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-let newVoyageBtn = document.getElementById("new-voyage");
-let newVoyageDiv = document.getElementById("new-voyage-div");
+let guest = typeof (_guest) == "boolean" && _guest == true;
 
-let notice = document.getElementById("notice");
+if (!guest) {
+    let newVoyageBtn = document.getElementById("new-voyage");
+    let newVoyageDiv = document.getElementById("new-voyage-div");
 
-function showNotice(text) {
-    notice.children[0].innerText = text;
-    notice.style.display = "unset";
-}
+    let notice = document.getElementById("notice");
 
-globalThis.newVoyage = function () {
-    setCameraState(1);
-    newVoyageBtn.classList.add("fade-out");
-    newVoyageDiv.classList.add("fade-in");
-}
+    function showNotice(text) {
+        notice.children[0].innerText = text;
+        notice.style.display = "unset";
+    }
 
-document.forms['new-voyage-form'].addEventListener('submit', (event) => {
-    event.preventDefault();
-    fetch(event.target.action, {
-        method: 'POST',
-        body: new URLSearchParams(new FormData(event.target))
-    }).then((response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-    }).then((body) => {
-        if (body["error"]) {
-            showNotice("Error: " + body["error"]);
-            return;
-        }
-        showNotice("Success!" + JSON.stringify(body));
-    }).catch((error) => {
-        showNotice("Error: Not success :(");
+    globalThis.newVoyage = function () {
+        setCameraState(1);
+        newVoyageBtn.classList.add("fade-out");
+        newVoyageDiv.classList.add("fade-in");
+    }
+
+    document.forms['new-voyage-form'].addEventListener('submit', (event) => {
+        event.preventDefault();
+        fetch(event.target.action, {
+            method: 'POST',
+            body: new URLSearchParams(new FormData(event.target))
+        }).then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        }).then((body) => {
+            if (body["error"]) {
+                showNotice("Error: " + body["error"]);
+                return;
+            }
+            showNotice("Success!" + JSON.stringify(body));
+        }).catch((error) => {
+            showNotice("Error: Not success :(");
+        });
     });
-});
-
+}
 
 let cameraStates = [
     [[3.890794575489123, 0.9752466284680337, 3.406702477655009], [-0.06501676300811605, 0.014735025041483576, 0.0009593408193955247], 1.0],

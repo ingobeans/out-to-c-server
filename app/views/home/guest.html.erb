@@ -1,9 +1,9 @@
-<script>_showOceanSlice = true;_disableStartLerp=true;</script>
+<script>_showOceanSlice = true;_disableStartLerp=true;_guest=true;</script>
 <div id="background"></div>
 <div id="varyingContents">
     <a href="https://hackclub.com" id="hackclub-flag"><img src="https://assets.hackclub.com/flag-orpheus-top.svg"></a>
     <div style="position: absolute;width:100%"><img id="logo" src="<%= asset_path("graphics/logo.svg") %>" alt="Out To C"></div>
-    <%= image_tag "graphics/scroll.svg", id:"scroll-indicator" %>
+    <%= image_tag "graphics/scroll.svg", id: "scroll-indicator" %>
     <a class="linkbutton sign-in" href="https://hackatime.hackclub.com/oauth/authorize?client_id=<%= ENV["HACKATIME_UID"] %>&redirect_uri=<%= CGI.escape(auth_callback_url) %>&response_type=code&scope=profile+read"
         title="RSVP form :O">Sign in with Hack Club</a>
 
@@ -67,7 +67,7 @@
                 </div>
             </div>
             </div>
-            <%= image_tag "graphics/map.svg", id:"map" %>
+            <%= image_tag "graphics/map.svg", id: "map" %>
         </div>
         <h1>More information</h1>
         <p>There's several smaller islands with treasure along the way, and one extra big treasure island at the end!
