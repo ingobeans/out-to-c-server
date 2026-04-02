@@ -4,7 +4,6 @@ class VoyageController < ApplicationController
   # require dev endpoints to be in development environment
   before_action :dev_check, only: %i[ delete add_hour ]
 
-
   def delete
     @voyage.delete()
     @user.voyage = nil

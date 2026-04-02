@@ -38,11 +38,13 @@
     </div>
     <div id="active-voyage" <% if @voyage == nil %> style="visibility: hidden;"<% end %>>
         <div class="page">
-            <p>blorg</p>
+            <h2>Dev panel</h2>
             <%= form_with(url: voyage_add_hour_path) do |form| %>
-                <button>add 1 Hour (dev)</button>
+                <button>add 1 Hour</button>
             <% end %>
-            <a href="/voyage/delete">remove voyage (dev)</a>
+            <%= form_with(url: voyage_delete_path) do |form| %>
+                <button>remove voyage</button>
+            <% end %>
         </div>
     </div>
 </div>

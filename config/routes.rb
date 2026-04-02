@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   get "auth/dev" => "auth#dev"
 
   post "voyage/new" => "voyage#new"
-  get "voyage/delete" => "voyage#delete"
+  post "voyage/delete" => "voyage#delete"
   post "voyage/add_hour" => "voyage#add_hour"
 
   root "home#index"
