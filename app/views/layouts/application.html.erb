@@ -41,7 +41,7 @@
   </head>
 
   <body>
-    <div id="notice" <% if notice == nil %> style="display: none;"<% end %>><span><%= notice %></span><button onclick="this.parentElement.remove();">X</button></div>
+    <div id="notice" <% if notice == nil %> style="display: none;"<% end %>><span><%= notice %></span><button onclick="this.parentElement.style.display = 'none';">X</button></div>
     <%= yield %>
     <% if Rails.env.development? %>
       <script type="module" src="<%= asset_path "main.js" %>"></script>
