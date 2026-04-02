@@ -1,11 +1,11 @@
 <script>
     // load user data for the JS side
-    voyage = parseInt('<%= session[:user_id]["voyage"] %>') || null;
+    voyage = parseInt('<%= @voyage && @voyage.id %>') || null;
 </script>
 
 <div id="background"></div>
 <div id="varyingContents">
-    <p><%= session[:user_id]["voyage"] %></p>
+    <p><%= @voyage && @voyage.id %></p>
     <img id="pfp" src="<%= session[:user_id]["pfp"] %>">
 
     <div id="no-existing-voyage" <% if @voyage != nil %> style="visibility: hidden;"<% end %>>
