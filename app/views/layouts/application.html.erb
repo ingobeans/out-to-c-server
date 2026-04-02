@@ -43,6 +43,9 @@
   <body>
     <div id="notice" <% if notice == nil %> style="display: none;"<% end %>><span><%= notice %></span><button onclick="this.parentElement.style.display = 'none';">X</button></div>
     <%= yield %>
+    <script>
+    let travelDistance = typeof (_travelDistance) == "number" && parseFloat(_travelDistance) || 0;
+    </script>
     <% if Rails.env.development? %>
       <script type="module" src="<%= asset_path "main.js" %>"></script>
     <% else %>

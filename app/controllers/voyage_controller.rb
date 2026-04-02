@@ -17,7 +17,6 @@ class VoyageController < ApplicationController
     end
     @voyage.hours += 1.0
     @voyage.save!
-    redirect_to root_path
   end
   def new
     if @voyage != nil
