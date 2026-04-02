@@ -21,10 +21,9 @@ globalThis.newVoyage = function () {
 
 document.forms['new-voyage-form'].addEventListener('submit', (event) => {
     event.preventDefault();
-    // TODO do something here to show user that form is being submitted
     fetch(event.target.action, {
         method: 'POST',
-        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+        body: new URLSearchParams(new FormData(event.target))
     }).then((response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
