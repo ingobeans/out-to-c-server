@@ -27,6 +27,8 @@ class VoyageController < ApplicationController
         redirect_to root_path
       end
       @user = User.find(session[:user_id]["id"])
-      @voyage = Voyage.find(@user.voyage)
+      if @user.voyage != nil
+        @voyage = Voyage.find(@user.voyage)
+      end
     end
 end

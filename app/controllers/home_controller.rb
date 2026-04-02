@@ -9,5 +9,11 @@ class HomeController < ApplicationController
     private
       def set_logged_in
         @loggedin = session[:user_id] != nil and session[:user_id]["uid"] != nil
+        if @loggedin
+          @user = User.find(session[:user_id]["id"])
+          if @user.voyage != nil
+            @voyage = Voyage.find(@user.voyage)
+          end
+        end
       end
 end
