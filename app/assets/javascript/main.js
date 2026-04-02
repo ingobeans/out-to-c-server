@@ -11,19 +11,19 @@ let cameraStates = [
 
 let disableStartLerp = typeof (_disableStartLerp) == "boolean" && _disableStartLerp == true;
 
-let storedCameraStateIndex = parseInt(localStorage.getItem("lastCameraState")) || 0;
+let storedCameraState = JSON.parse(localStorage.getItem("lastCameraState")) || cameraStates[0];
 
-let activeCameraStateIndex = typeof (_activeCameraStateIndex) == "number" && parseInt(_activeCameraStateIndex) || 0;
+let targetCameraState = cameraStates[typeof (_activeCameraStateIndex) == "number" && parseInt(_activeCameraStateIndex) || 0];
 
 if (disableStartLerp) {
-    localStorage.setItem("lastCameraState", activeCameraStateIndex);
-    storedCameraStateIndex = activeCameraStateIndex;
+    localStorage.setItem("lastCameraState", JSON.stringify(targetCameraState));
+    storedCameraState = targetCameraState;
 }
-let activeCameraState = structuredClone(cameraStates[storedCameraStateIndex]);
+let activeCameraState = structuredClone(storedCameraState);
 
-if (storedCameraStateIndex != activeCameraStateIndex) {
-    localStorage.setItem("lastCameraState", activeCameraStateIndex);
-    storedCameraStateIndex = activeCameraStateIndex;
+if (storedCameraState != targetCameraState) {
+    localStorage.setItem("lastCameraState", JSON.stringify(targetCameraState));
+    storedCameraState = targetCameraState;
 }
 
 const loader = new THREE.TextureLoader();
@@ -182,8 +182,8 @@ function lerpCameraState(a, b, t) {
 }
 
 function setCameraState(index) {
-    activeCameraStateIndex = index;
-    localStorage.setItem("lastCameraState", index);
+    targetCameraState = cameraStates[index];
+    localStorage.setItem("lastCameraState", JSON.stringify(targetCameraState));
 }
 globalThis.setCameraState = setCameraState;
 
@@ -193,7 +193,7 @@ function animate(time) {
     let deltaTime = time - previousTime;
     previousTime = time;
 
-    lerpCameraState(activeCameraState, cameraStates[activeCameraStateIndex], Math.min(deltaTime / 1000.0, 1.0 / 60.0) * 5.0);
+    lerpCameraState(activeCameraState, targetCameraState, Math.min(deltaTime / 1000.0, 1.0 / 60.0) * 5.0);
     updateCameraPos();
     let relPosition = water.position;
     // PI / 16 is subtracted to make it a bit delayed compared to the water
