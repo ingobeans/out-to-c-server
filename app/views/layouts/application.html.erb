@@ -48,5 +48,8 @@
     <% else %>
       <script type="module" src="<%= asset_path "min.js" %>"></script>
     <% end %>
+    <% if session[:user_id] != nil %>
+      <script type="module" src="<%= asset_path "runtime.js" %>"></script>
+    <% end %>
   </body>
 </html>

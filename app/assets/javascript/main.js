@@ -3,47 +3,6 @@ import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
 //import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-let guest = typeof (_guest) == "boolean" && _guest == true;
-
-if (!guest) {
-    let newVoyageBtn = document.getElementById("new-voyage");
-    let newVoyageDiv = document.getElementById("new-voyage-div");
-
-    let notice = document.getElementById("notice");
-
-    function showNotice(text) {
-        notice.children[0].innerText = text;
-        notice.style.display = "unset";
-    }
-
-    globalThis.newVoyage = function () {
-        setCameraState(1);
-        newVoyageBtn.classList.add("fade-out");
-        newVoyageDiv.classList.add("fade-in");
-    }
-
-    document.forms['new-voyage-form'].addEventListener('submit', (event) => {
-        event.preventDefault();
-        fetch(event.target.action, {
-            method: 'POST',
-            body: new URLSearchParams(new FormData(event.target))
-        }).then((response) => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-        }).then((body) => {
-            if (body["error"]) {
-                showNotice("Error: " + body["error"]);
-                return;
-            }
-            showNotice("Success!" + JSON.stringify(body));
-        }).catch((error) => {
-            showNotice("Error: Not success :(");
-        });
-    });
-}
-
 let cameraStates = [
     [[3.890794575489123, 0.9752466284680337, 3.406702477655009], [-0.06501676300811605, 0.014735025041483576, 0.0009593408193955247], 1.0],
     [[2.4221213024953085, 0.44182968124302335, 1.5086600466763138], [-0.09449775865214692, 0.17447782373791565, 0.01645175529882499], 0.1],
