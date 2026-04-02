@@ -58,6 +58,7 @@ document.forms['new-voyage-form'].addEventListener('submit', (event) => {
         voyage = parseInt(body["id"]);
         fadeOut(noExistingVoyageScreen);
         fadeIn(activeVoyageScreen);
+        setCameraState(2);
     }).catch((error) => {
         showNotice("Error: Not success :(");
         console.error(error);

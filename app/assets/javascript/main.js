@@ -9,11 +9,25 @@ let cameraStates = [
     [[2.16961166187931, 0.4052103230024016, 1.18371895845364], [-0.04720442442221636, 0.22739843858771805, 0.01064944896585632], 0.0],
 ];
 
+function getCameraState(index) {
+    if (index == 2) {
+        let a = structuredClone(cameraStates[2]);
+        a[0][0] = cameraStates[2][0][0] + travelDistance;
+        return a
+    } else {
+        return cameraStates[index];
+    }
+}
+
+
+let travelDistance = typeof (_travelDistance) == "float" && parseFloat(_travelDistance);
+globalThis.setTravelDistance = (v) => { travelDistance = v; setCameraState(2); };
+
 let disableStartLerp = typeof (_disableStartLerp) == "boolean" && _disableStartLerp == true;
 
 let storedCameraState = JSON.parse(localStorage.getItem("lastCameraState")) || cameraStates[0];
 
-let targetCameraState = cameraStates[typeof (_activeCameraStateIndex) == "number" && parseInt(_activeCameraStateIndex) || 0];
+let targetCameraState = getCameraState(typeof (_activeCameraStateIndex) == "number" && parseInt(_activeCameraStateIndex) || 0);
 
 if (disableStartLerp) {
     localStorage.setItem("lastCameraState", JSON.stringify(targetCameraState));
@@ -182,7 +196,7 @@ function lerpCameraState(a, b, t) {
 }
 
 function setCameraState(index) {
-    targetCameraState = cameraStates[index];
+    targetCameraState = getCameraState(index);
     localStorage.setItem("lastCameraState", JSON.stringify(targetCameraState));
 }
 globalThis.setCameraState = setCameraState;
@@ -199,6 +213,8 @@ function animate(time) {
     // PI / 16 is subtracted to make it a bit delayed compared to the water
     // to give an effect of having mass
     ship.position.y = Math.sin(time / 1200.0 + relPosition.z + relPosition.x - Math.PI / 16) * 0.04;
+
+    ship.position.x = lerp(ship.position.x, travelDistance, Math.min(deltaTime / 1000.0, 1.0 / 60.0) * 2.0);
 
     //controls.update();
     renderer.render(scene, camera);

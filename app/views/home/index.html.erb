@@ -1,8 +1,9 @@
 <script>
     // load user data for the JS side
     voyage = parseInt('<%= @voyage && @voyage.id %>') || null;
+    _travelDistance = (parseFloat('<%= @voyage && @voyage.hours %>') || 0.0);
 
-    _activeCameraStateIndex = voyage == null ? 0 : 1;
+    _activeCameraStateIndex = voyage == null ? 0 : 2;
 </script>
 
 <div id="background"></div>
