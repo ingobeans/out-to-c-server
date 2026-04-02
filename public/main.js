@@ -1,7 +1,17 @@
 import * as THREE from 'three';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
-// import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { lerp } from 'three/src/math/MathUtils.js';
+//import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+let cameraStates = [
+    [[3.890794575489123, 0.9752466284680337, 3.406702477655009], [-0.06501676300811605, 0.014735025041483576, 0.0009593408193955247], 1.0],
+    [[2.4221213024953085, 0.44182968124302335, 1.5086600466763138], [-0.09449775865214692, 0.17447782373791565, 0.01645175529882499], 0.1],
+];
+let previousCameraStateIndex = 0;
+let activeCameraStateIndex = 1;
+let cameraLerpTime = 0.0;
+let activeCameraState = cameraStates[previousCameraStateIndex];
 
 const loader = new THREE.TextureLoader();
 const texture = await loader.loadAsync('3d/water2.JPG');
@@ -41,7 +51,7 @@ let waterShader = new THREE.ShaderMaterial({
 });
 
 function getCameraOffset(aspect) {
-    return 0.9639917695473 * aspect - 1.9753086419753;
+    return (0.9639917695473 * aspect - 1.9753086419753) * activeCameraState[2];
 }
 
 renderer.setSize(width, height);
@@ -135,19 +145,51 @@ scene.add(ambientLight);
 renderer.setAnimationLoop(animate);
 document.body.appendChild(renderer.domElement);
 
+function updateCameraPos() {
+    camera.position.set(activeCameraState[0][0] + getCameraOffset(width / height), activeCameraState[0][1], activeCameraState[0][2]);
+
+    camera.rotation.x = activeCameraState[1][0];
+    camera.rotation.y = activeCameraState[1][1];
+    camera.rotation.z = activeCameraState[1][2];
+}
+
+function easeInOutCubic(x) {
+    return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+}
+
 // set up default camera state
-let cameraStartX = 3.890794575489123;
-camera.position.set(cameraStartX + getCameraOffset(width / height), 0.9752466284680337, 3.406702477655009);
+updateCameraPos();
 
-// set default camera rotation
-camera.rotation.x = -0.06501676300811605;
-camera.rotation.y = 0.014735025041483576;
-camera.rotation.z = 0.0009593408193955247;
+function lerpCameraState(a, b, t) {
+    t = easeInOutCubic(t);
+    let c = structuredClone(a);
+    for (let tci = 0; tci < 2; tci++) {
+        for (let ci = 0; ci < 3; ci++) {
+            c[tci][ci] = lerp(a[tci][ci], b[tci][ci], t);
+        }
+    }
+    c[2] = lerp(a[2], b[2], t);
+    return c;
+}
+globalThis.cameraStates = cameraStates;
+globalThis.lerpCameraState = lerpCameraState;
 
-
+let previousTime = 0.0;
 function animate(time) {
     waterShader.uniforms["time"].value = time;
+    let deltaTime = time - previousTime;
+    previousTime = time;
 
+    if (previousCameraStateIndex != activeCameraStateIndex) {
+        cameraLerpTime += deltaTime;
+        const lerpTime = 1000.0;
+        activeCameraState = lerpCameraState(cameraStates[previousCameraStateIndex], cameraStates[activeCameraStateIndex], Math.min(cameraLerpTime / lerpTime, 1.0));
+        if (cameraLerpTime >= lerpTime) {
+            previousCameraStateIndex = activeCameraStateIndex;
+            cameraLerpTime = 0.0;
+        }
+        updateCameraPos();
+    }
 
     let relPosition = water.position;
     // PI / 16 is subtracted to make it a bit delayed compared to the water
@@ -166,8 +208,6 @@ window.addEventListener("resize", () => {
     camera.height = height;
     camera.aspect = width / height
     camera.updateProjectionMatrix();
-
-    camera.position.x = cameraStartX + getCameraOffset(width / height);
 
     renderer.setSize(width, height);
 });
