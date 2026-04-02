@@ -75,15 +75,15 @@ body {
     visibility: unset !important;
 }
 
-input[type=text],
-button,
-select {
+form>input[type=text],
+form>button,
+form>select {
     width: calc(100% - 10px);
     background-color: #9c6a3d;
     border: 2px solid #583d26;
 }
 
-button {
+form>button {
     width: calc(100% - 40px);
     margin: 0 auto;
     margin-top: 10px;
