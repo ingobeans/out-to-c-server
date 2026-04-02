@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
-import { lerp } from 'three/src/math/MathUtils.js';
 //import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 let cameraStates = [
@@ -169,6 +168,9 @@ function updateCameraPos() {
 // set up default camera state
 updateCameraPos();
 
+function lerp(a, b, t) {
+    return a + (b - a) * t;
+}
 function lerpCameraState(a, b, t) {
     for (let tci = 0; tci < 2; tci++) {
         for (let ci = 0; ci < 3; ci++) {
