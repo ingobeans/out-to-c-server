@@ -12,6 +12,18 @@ class VoyageController < ApplicationController
     session[:user_id] = @user
     redirect_to root_path
   end
+  def add_hour
+    if !Rails.env.development?
+      redirect_to root_path
+      return
+    end
+    if @voyage.hours == nil
+      @voyage.hours = 0.0
+    end
+    @voyage.hours += 1.0
+    @voyage.save!
+    redirect_to root_path
+  end
   def new
     if @voyage != nil
       render json: { "error": "This user already has an active voyage!" }

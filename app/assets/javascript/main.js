@@ -20,7 +20,7 @@ function getCameraState(index) {
 }
 
 
-let travelDistance = typeof (_travelDistance) == "float" && parseFloat(_travelDistance);
+let travelDistance = typeof (_travelDistance) == "number" && parseFloat(_travelDistance) || 0;
 globalThis.setTravelDistance = (v) => { travelDistance = v; setCameraState(2); water.position.x = waterOriginX + travelDistance; };
 
 let disableStartLerp = typeof (_disableStartLerp) == "boolean" && _disableStartLerp == true;
@@ -153,6 +153,7 @@ for (let child of island.children) {
         ship = child;
     }
 }
+ship.position.x = travelDistance;
 scene.add(island);
 let water = await loadModel("water", waterShader);
 
