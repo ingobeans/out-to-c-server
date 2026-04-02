@@ -9,13 +9,13 @@ let cameraStates = [
     [[2.4221213024953085, 0.44182968124302335, 1.5086600466763138], [-0.09449775865214692, 0.17447782373791565, 0.01645175529882499], 0.1],
 ];
 
-let _disableStartLerp = typeof (disableStartLerp) == "boolean" && disableStartLerp == true;
+let disableStartLerp = typeof (_disableStartLerp) == "boolean" && _disableStartLerp == true;
 
 let storedCameraStateIndex = parseInt(localStorage.getItem("lastCameraState")) || 0;
 
 let activeCameraStateIndex = typeof (startingCameraStateIndex) == "number" && parseInt(startingCameraStateIndex) || 0;
 
-if (_disableStartLerp) {
+if (disableStartLerp) {
     localStorage.setItem("lastCameraState", activeCameraStateIndex);
     storedCameraStateIndex = activeCameraStateIndex;
 }
@@ -39,9 +39,9 @@ let height = document.documentElement.clientHeight * window.devicePixelRatio;
 
 // init
 
-// use higher clipping plane if showOceanSlice is defined and set to true
-let shouldShowOceanSlice = typeof (showOceanSlice) != "undefined" && showOceanSlice == true;
-let nearClipping = shouldShowOceanSlice ? 1.3 : 0.1;
+// use higher clipping plane if _showOceanSlice is defined and set to true
+let showOceanSlice = typeof (_showOceanSlice) != "undefined" && _showOceanSlice == true;
+let nearClipping = showOceanSlice ? 1.3 : 0.1;
 
 const camera = new THREE.PerspectiveCamera(70, width / height, nearClipping, 100);
 const scene = new THREE.Scene();
