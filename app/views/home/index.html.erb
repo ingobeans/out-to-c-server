@@ -6,6 +6,12 @@
     _activeCameraStateIndex = voyage == null ? 0 : 2;
 </script>
 
+<style>
+    canvas {
+        filter: unset !important;
+    }
+</style>
+
 <div id="background"></div>
 <div id="varyingContents">
     <img id="pfp" src="<%= session[:user_id]["pfp"] %>">
