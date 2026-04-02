@@ -8,10 +8,23 @@ let cameraStates = [
     [[3.890794575489123, 0.9752466284680337, 3.406702477655009], [-0.06501676300811605, 0.014735025041483576, 0.0009593408193955247], 1.0],
     [[2.4221213024953085, 0.44182968124302335, 1.5086600466763138], [-0.09449775865214692, 0.17447782373791565, 0.01645175529882499], 0.1],
 ];
-let previousCameraStateIndex = 0;
-let activeCameraStateIndex = 1;
-let cameraLerpTime = 0.0;
-let activeCameraState = cameraStates[previousCameraStateIndex];
+
+let _disableStartLerp = typeof (disableStartLerp) == "boolean" && disableStartLerp == true;
+
+let storedCameraStateIndex = parseInt(localStorage.getItem("lastCameraState")) || 0;
+
+let activeCameraStateIndex = typeof (startingCameraStateIndex) == "number" && parseInt(startingCameraStateIndex) || 0;
+
+if (_disableStartLerp) {
+    localStorage.setItem("lastCameraState", activeCameraStateIndex);
+    storedCameraStateIndex = activeCameraStateIndex;
+}
+let activeCameraState = structuredClone(cameraStates[storedCameraStateIndex]);
+
+if (storedCameraStateIndex != activeCameraStateIndex) {
+    localStorage.setItem("lastCameraState", activeCameraStateIndex);
+    storedCameraStateIndex = activeCameraStateIndex;
+}
 
 const loader = new THREE.TextureLoader();
 const texture = await loader.loadAsync('3d/water2.JPG');
@@ -153,26 +166,18 @@ function updateCameraPos() {
     camera.rotation.z = activeCameraState[1][2];
 }
 
-function easeInOutCubic(x) {
-    return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
-}
-
 // set up default camera state
 updateCameraPos();
 
 function lerpCameraState(a, b, t) {
-    t = easeInOutCubic(t);
-    let c = structuredClone(a);
     for (let tci = 0; tci < 2; tci++) {
         for (let ci = 0; ci < 3; ci++) {
-            c[tci][ci] = lerp(a[tci][ci], b[tci][ci], t);
+            a[tci][ci] = lerp(a[tci][ci], b[tci][ci], t);
         }
     }
-    c[2] = lerp(a[2], b[2], t);
-    return c;
+    a[2] = lerp(a[2], b[2], t);
 }
-globalThis.cameraStates = cameraStates;
-globalThis.lerpCameraState = lerpCameraState;
+globalThis.setCameraState = (a) => { activeCameraStateIndex = a };
 
 let previousTime = 0.0;
 function animate(time) {
@@ -180,17 +185,8 @@ function animate(time) {
     let deltaTime = time - previousTime;
     previousTime = time;
 
-    if (previousCameraStateIndex != activeCameraStateIndex) {
-        cameraLerpTime += deltaTime;
-        const lerpTime = 1000.0;
-        activeCameraState = lerpCameraState(cameraStates[previousCameraStateIndex], cameraStates[activeCameraStateIndex], Math.min(cameraLerpTime / lerpTime, 1.0));
-        if (cameraLerpTime >= lerpTime) {
-            previousCameraStateIndex = activeCameraStateIndex;
-            cameraLerpTime = 0.0;
-        }
-        updateCameraPos();
-    }
-
+    lerpCameraState(activeCameraState, cameraStates[activeCameraStateIndex], Math.min(deltaTime / 1000.0, 1.0 / 60.0) * 5.0);
+    updateCameraPos();
     let relPosition = water.position;
     // PI / 16 is subtracted to make it a bit delayed compared to the water
     // to give an effect of having mass
