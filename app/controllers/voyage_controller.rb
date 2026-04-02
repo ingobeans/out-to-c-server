@@ -1,11 +1,11 @@
 class VoyageController < ApplicationController
   # require all routes of the voyage controller to be logged in to an account
   before_action :check_logged_in
+  # require dev endpoints to be in development environment
+  before_action :dev_check, only: %i[ delete add_hour ]
+
+
   def delete
-    if !Rails.env.development?
-      redirect_to root_path
-      return
-    end
     @voyage.delete()
     @user.voyage = nil
     @user.save!
@@ -13,10 +13,6 @@ class VoyageController < ApplicationController
     redirect_to root_path
   end
   def add_hour
-    if !Rails.env.development?
-      redirect_to root_path
-      return
-    end
     if @voyage.hours == nil
       @voyage.hours = 0.0
     end
@@ -44,6 +40,11 @@ class VoyageController < ApplicationController
   end
 
   private
+    def dev_check
+      if !Rails.env.development?
+        redirect_to root_path
+      end
+    end
     def check_logged_in
       loggedin = session[:user_id] != nil and session[:user_id]["uid"] != nil
       if not loggedin
